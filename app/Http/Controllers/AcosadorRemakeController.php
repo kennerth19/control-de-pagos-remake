@@ -58,6 +58,7 @@ class AcosadorRemakeController extends Controller
                 $API->disconnect();
             }
 
+            // Se devuelve el resultado en formato JSON.
             return response()->json($result);
         } catch (\Exception $e) {
             Log::error("Error al recibir los datos: {$e->getMessage()}");
