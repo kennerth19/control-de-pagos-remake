@@ -1,0 +1,52 @@
+1 requiere suspension
+2 restan 2 días
+3 resta 1 dia
+4 dia de corte
+5 solvente
+
+-----------------------------------------------------------------------------
+clave y usuario para todos: PuertoWiFiAdmin PuertoWiFiTelecomCA2023
+
+Borburata 10.255.150.246 
+23 de enero 02 10.255.150.247
+23 de enero 01 10.255.150.248
+Santa cruz 10.255.150.249
+Goaigoaza 10.255.150.250
+Centro-02 10.255.150.251
+Centro-01 10.255.150.252
+
+clave y usuario: Bot1 147258369*
+Prueba 10.155.110.56 
+
+-----------------------------------------------------------------------------
+
+planes tipo
+
+0 antena
+1 fibra
+-----------------------------------------------------------------------------
+
+active
+
+0 desactivado
+1 activado
+-----------------------------------------------------------------------------
+
+tipo de resumen general
+
+0 cliente creado
+-----------------------------------------------------------------------------
+tipos de pagos
+
+0 mensualidades
+1 pagos de servicio e instalaciones
+
+-----------------------------------------------------------------------------
+
+INSERT INTO `estados` (`id`, `estado`) VALUES (NULL, 'solvente'), (NULL, 'restan 2 dias'), (NULL, 'resta 1 dia'), (NULL, 'dia de corte'), (NULL, 'requiere suspension');
+
+INSERT INTO `planes` (`id`, `plan`, `valor`, `tipo`) VALUES (NULL, '6MB inalambrico', '20', '0'), (NULL, '12MB inalambrico', '30', '0'), (NULL, '20MB inalambrico', '40', '0'), (NULL, '35MB inalambrico', '50', '0'), (NULL, '70MB inalambrico PTP', '60', '0'), (NULL, '120MB inalambrico PTP', '60', '0'), (NULL, 'FIBRA 6MB', '20', '1'), (NULL, 'FIBRA 50MB', '30', '1'), (NULL, 'FIBRA 100MB', '40', '1'), (NULL, 'FIBRA 150MB', '50', '1'), (NULL, 'FIBRA 200MB', '60', '1'), (NULL, 'FIBRA 250MB', '70', '1'), (NULL, 'FIBRA RURAL 6MB', '20', '2'), (NULL, 'FIBRA RURAL 15MB', '30', '2'), (NULL, 'FIBRA RURAL 30MB', '40', '2'), (NULL, 'FIBRA RURAL 45MB', '50', '2'), (NULL, 'FIBRA RURAL 60MB', '60', '2'), (NULL, 'FIBRA RURAL 75MB', '70', '2'), (NULL, 'Edif M. 2MB', '13', '0'), (NULL, 'Edif M. 3MB', '20', '0');
+
+INSERT INTO `servidores` (`id`, `servidor`, `ip`, `puerto`) VALUES (NULL, 'PW_RO_CENTRO-01', '10.255.200.2', '8727'), (NULL, 'PW_RO_CENTRO-02', '10.255.200.3', '8727'), (NULL, 'PW_RO_GOAIGOAZA', '190.120.248.226', '8727'), (NULL, 'PW_RO_SANTA_CRUZ', '190.120.248.225', '8727'), (NULL, 'PW_RO_23_DE_ENERO_01', '190.120.248.224', '8727'), (NULL, 'PW_RO_23_DE_ENERO_02', '190.120.248.227', '8727'), (NULL, 'PW_RO_EDF_MILITARES', '10.0.30.2', '8727'), (NULL, 'PW_RO_BORBURATA', '10.0.31.2', '8727'), (NULL, 'PW_RO_NORIA', '172.10.80.254', '8727');
+
+/*:v*/

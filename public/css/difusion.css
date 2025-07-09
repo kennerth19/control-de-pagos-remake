@@ -1,0 +1,104 @@
+* {
+    font-family: "Fira Sans", sans-serif;
+    color: #fff;
+    margin: 0;
+    text-align: center;
+}
+
+body {
+    background-color: #232629;
+}
+
+.main {
+    display: grid;
+    grid-template-columns: 25% 1fr;
+    align-items: center;
+    justify-items: center;
+}
+
+h2{
+    margin: 12px;
+}
+
+.filtro {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 10% 20% 15% 1fr 1fr;
+    align-items: center;
+    font-size: larger;
+    width: 90%;
+    background-color: #1b1d1e;
+    padding: 12px;
+}
+
+.mensaje {
+    width: 95%;
+    padding: 3px;
+    margin: 3px;
+}
+
+#mensaje {
+    width: -webkit-fill-available;
+    resize: none;
+    padding: 12px;
+}
+
+textarea {
+    background-color: #34393d;
+    color: #fff;
+    font-size: larger;
+    font-family: cursive;
+    outline: none;
+    border-radius: 7px;
+    text-align: left;
+}
+
+.filtros_varios {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+button {
+    background: rgb(45 47 49);
+    color: #fff;
+    border: solid 1px rgb(255 255 255 / 30%);
+    border-radius: 7px;
+    padding: 20px;
+    cursor: pointer;
+    font-family: cursive;
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+button:hover {
+    background-color: #212529;
+}
+
+#boton_filtro, .boton_filtro, #confirmar {
+    background: rgb(45 47 49);
+    color: #fff;
+    border: solid 1px rgb(255 255 255 / 30%);
+    border-radius: 7px;
+    padding: 10px;
+    cursor: pointer;
+    font-family: cursive;
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+.main_item {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+}
+
+.item {
+    display: grid;
+    grid-template-columns: 80% 10%;
+    align-items: center;
+    justify-items: center;
+}
+
+.sweet-alert.sweetalert-lg {
+    width: 100%;
+}

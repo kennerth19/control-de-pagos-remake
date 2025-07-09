@@ -1,0 +1,123 @@
+*{
+    font-family: 'Heebo', sans-serif;
+}
+
+.titulo{
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+.nuevo_cliente{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3px;
+    text-align: center;
+    background-color: rgb(29 29 30);
+    color: #fff;
+    padding: 15px;
+    align-items: center;
+    justify-items: center;
+    border: 1px solid;
+    border-color: rgb(255 255 255 / 20%);
+    border-radius: 15px;
+}
+
+.nuevo_registro{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 5px;
+    text-align: center;
+    padding: 15px;
+    justify-items: stretch;
+}
+
+.nuevo_registro_sub{
+    background-color: rgb(29 29 30);
+    color: #fff;
+    border: 1px solid;
+    border-color: rgb(255 255 255 / 20%);
+    border-radius: 15px;
+    padding: 25px 10px 25px 10px;
+    overflow: hidden;
+}
+
+.contenedor_add{
+    box-shadow: 10px 10px 13px 3px black;
+    border-radius: 15px;
+    height: max-content;
+    box-shadow: none;
+}
+
+textarea{
+    resize: none;
+}
+
+.input{
+    border: none;
+    color: #fff;
+    padding: 10px;
+    background: rgb(45 47 49);
+    outline: none;
+}
+
+.input::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+
+input::placeholder { 
+    color: rgb(255, 255, 255);
+}
+
+.input_submit{
+    width: 50%;
+    place-self: center;
+    border: 1px solid;
+    border-radius: 15px;
+    padding: 15px;
+    color: rgb(81, 89, 102);
+    cursor: pointer;
+    font-size: medium;
+    margin: 5px;
+}
+
+.input_type_insta{
+    margin-right: 20px;
+}
+
+.input_submit:hover{
+    background: rgb(45 47 49);
+    color: #fff;
+    border: solid 1px rgb(255 255 255 / 30%);
+}
+
+.item_input{
+    background: rgb(45 47 49);
+    width: 100%;
+    display: grid;
+    grid-template-columns: 10% 1fr;
+    align-items: center;
+    border-radius: 5px;
+    border: solid 1px rgb(255 255 255 / 10%);
+}
+
+i{
+    justify-self: right;
+}
+
+.container_modal{
+    overflow: hidden;
+    min-width: 400px;
+    font-size: larger;
+}
+
+.popup_custom{
+    min-width: 400px;
+}
+
+@media ((max-width: 260px)) {
+    .popup_custom{
+        width: 100%;
+        font-size: 32px !important;
+    }
+}

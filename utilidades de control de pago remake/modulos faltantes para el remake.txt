@@ -1,0 +1,123 @@
+﻿1: LOG
+
+- Meses añadidos y su fecha de corte en ese momento. LISTO
+- pagos registrados (mensualidad, abono, complemento de pagos, y servicios). LISTO
+- clientes añadidos (por el modulo de agregar clientes y pre-registro). LISTO
+- editar cliente (e indicar que fue editado). LISTO
+- registrar fecha y hora de los usuarios que inicien y cierren sesión. LISTO
+- eliminar cliente. LISTO
+- agregar o eliminar un servicio del propietario. LISTO :V
+
+2: MODULO DE PAGOS DE MENSUALIDAD Y SERVICIOS
+
+- si al momento de pagar el cliente tiene una prorroga asignada, si el pago es una reactivación entonces no modificar la fecha de corte. LISTO
+- Al momento de una mudanza, no crear un nuevo registro si no en el pre-registro especificar cual cliente debe sustituirse y no eliminar sus pagos anteriores. LISTO
+- si al momento de pagar nos equivocamos, y al darle a la opción de borrar el pago, también debería restarse la cantidad de meses acorde al pago realizado. LISTO
+- elegir si el ticket sea emitido en dolares o bolivares. LISTO
+- elegir si este cliente se le entregara factura fiscal o nota de entrega. CANCELADO
+- nuevas instalaciones. LISTO
+- venta de productos en general (mini ups, routers... etc). LISTO
+- pago de la deuda de la instalación del cliente (excedente de cable o algún faltante de su instalación). LISTO
+
+3: API MIKROTIK
+
+- modulo de cortes. LISTO 
+- activar clientes al pagar (solo si estos están solventes obviamente). LISTO
+- cortar clientes al desactivarlo en el modulo de editar cliente. LISTO
+- cortar clientes al congelar en el modulo de editar cliente. LISTO
+- servicio de prorrogas. LISTO
+- agregarle al momento de cortar, verificar si el cliente fue cortado correctamente haciéndole ping. :V ? YA VEREMOS COMO
+- generar un reporte que indique los clientes que fueron cortados en el dia (UN LOG PARA LOS CORTES). 
+
+4: SOFT-DELETE
+
+- mostrar todos los clientes que fueron desactivados en una vista nueva. LISTO
+- los clientes en esta lista serán desactivados, ignorando si la fecha de suspension es solvente o si tiene prorrogas. LISTO
+
+5: CAMBIOS DEL CLIENTE (modulo que aparecerá en el inicio)
+
+- si el cliente recibe un cambio en algún de sus datos, este aparecerá en una pequeña lista numerando sus cambios. LISTO
+
+6: MODULO ADMINISTRADOR
+
+- poder editar, eliminar y crear planes nuevos.
+- al momento de eliminar un plan que salga un mensaje diciendo cuantas personas tienen ese plan y elegir que plan nuevo tendrán esas personas.
+- dar roles a los usuarios.
+- crear nuevos roles.
+- borrar roles.
+- cambiar la tasa.
+
+7: MODULO PERFIL DEL CLIENTE
+
+- ver el status de su servicio (plan, fecha de corte etc).
+- tener un seguimiento de cuantos días el cliente estuvo sin pagar (después de que terminen sus 3 días de prorroga).
+
+8: COSITAS VARIADAS O COSITAS POR REPARAR XD
+
+- que se pueda tener clientes con rif. LISTO
+- también en el evento diario no se pueden escribir decimales y cuando muestra las cantidades totales, se muestra con muchos decimales. LISTO
+- al poner un monto en cualquier tipo de pagos, al darle otra vez a seleccionar el mismo tipo de pago, la cantidad se pone en 0 pero la sumatoria mantiene el monto. LISTO
+- al momento de darle doble click al input en el modulo de pagos, este toma el monto restante y lo coloca en el input pero no en el total. LISTO
+- congelar servicios de clientes que digan que se retiran momentáneamente. LISTO
+- agregar jerarquías de clientes (regular, premium, donación). LISTO
+- arreglar detalle de cobrador al momento de hacer un pago (siempre sale kennerth). LISTO
+- al momento de pagar mas de 12 meses, este no sube el año. LISTO
+- En el método de pago organizar primero "subir mes", "pago resumen" y "ticket". LISTO
+- agregar los colores al modulo de reporte general. LISTO
+- ver que hacer con los clientes que tengan la fecha de corte los días 29 en adelante. LISTO PORFIN NOJODA :'V !
+- referencias duplicadas we :D LISTO PORFIN NOJODA :'V !
+- las prorrogas al finalizar tienen que ser null. LISTO
+- Si el cliente quiere cambiar su fecha y hay varios días de diferencia, se debe hacer una calculadora para ver cuanto debe pagar por esos días (formula: precio / 30 * días). LISTO
+- mensajes de pago o modificación exitosa. LISTO
+- limites de prorrogas. LISTO
+- en el acosador también agregar que se cambien los servidores. LISTO
+- lanzar mensaje indicando que el cliente ya tiene una prorroga asignada o que la prorroga ya fue asignada ese mismo mes. LISTO
+- El botón de "desactivar" se usa para cortar directamente en el servidor ignorando todas las reglas (fecha de corte o prorroga), también el cliente se va a desactivar después de 2 meses sin haber realizado un pago. LISTO
+- al momento de pagar si el cliente esta desactivado, este se activara automáticamente.
+- formulario para agregarle una deuda y motivo de deuda al cliente. LISTO
+- AL MOMENTO DE LA SUSPENSION DEL CLIENTE: SI EL CLIENTE ABONA UN PAGO, EL SISTEMA DEBERÍA AGREGAR AUTOMÁTICAMENTE UNA PRORROGA DE 7 DIAS, VUELVO Y REPITO :V ESTO SOLO SI EL CLIENTE ESTA SUSPENDIDO :V. LISTO
+- FUNCIÓN IMPORTANTE: al momento de abrir un formulario de pago, este solo muestra los datos mas recientes de la vista, pero si actualizan un dato empiezan los problemas, solución: función donde cambie los parámetros del formulario al momento de darle click. LISTO
+- arreglar bug de pagos que no suben mensualidad. LISTO
+- bugaso (que no es bugaso :V) de eliminar un pago y se restan 2 meses. LISTO
+- Crear un botón para separar servicios de clientes. LISTO
+- que solo se pueda eliminar el ultimo pago realizado (si se elimina el ultimo pago, entonces el pago anterior a ese se podrá eliminar). LISTO
+- en el modulo de registrar instalación, agregar también que tipo de equipo se va a instalar (para guardar en el inventario). LISTO
+- botón para modificar tasa en los formularios de pago. LISTO
+- multi-pagos. LISTO
+- mostrar una alerta cuando el cliente paga una instalación por debajo del mínimo. LISTO
+- al momento de migrar (no mudar) un cliente existente, desactivar del servidor dicho registro en el firewall. LISTO
+- cuando el cliente este solvente, premium o donación, eliminar la opción de agregar prorroga. LISTO
+- el multipagos no reajusta la fecha de corte. LISTO
+- que no se pueda editar la observación en el modulo de pre-registro, que salga cuanto fue pagado y que muestre al cobrador. LISTO
+- agregar deudas a clientes que no paguen prorrogas. LISTO
+
+---------------------------
+
+- agregar un eventlistener a el botón de pagar: para verificar cuantos dígitos se ingresaron en la referencia, si ingresaron menos de 7 desde el inspector de elementos, este se dará cuenta y bloqueara el pago.
+- agregar reporte de gastos (que aparezcan también los gastos del evento diario).
+- botón para enviar los Zelle's en un excel y quien lo envía + el cliente.
+- que el cliente sea capaz de agregar varios números. nueva tabla con llave primaria ? :V
+
+9: PERFIL DE usuarios.
+
+- poder editar usuarios (nombre, clave, rol). LISTO
+
+10: NOMINA.
+
+11: INVENTARIO. LISTO
+
+12: SECCIÓN PARA LAS ANTENAS Y ROUTERS (NODOS). LISTO
+
+13: COMPROBAR ZELLE.
+
+14: COMPROBAR PAGOMOVIL. LISTO 
+
+- poder ver pago móviles por dia. LISTO
+- buscador de fecha. LISTO 
+- botón para verificarlos. LISTO
+- poder ingresar un archivo excel (del banco de marco) al comprobante de pagomoviles y validar las referencias y su monto correctos. LISTO
+
+15: SISTEMA DE CONDUCTA. LISTO
+
+- agregar 2 campos nuevos a la base de datos de cada cliente: conducta y motivo. LISTO
+- clientes con mala conducta no tienen derecho a prorroga manuales ni a días de prorroga. LISTO

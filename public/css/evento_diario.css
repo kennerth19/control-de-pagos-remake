@@ -1,0 +1,218 @@
+body {
+    text-align: center;
+    color: #fff;
+    background-attachment: fixed;
+}
+
+.header{
+    display: grid;
+    grid-template-columns: 250px 250px 150px 1fr;
+    width: -webkit-fill-available !important;
+    height: fit-content;
+    justify-items: center;
+    align-items: center;
+    z-index: 100;
+}
+
+#fecha {
+    position: relative;
+    font-size: large;
+    background-color: #18181875;
+    color: #fff;
+    z-index: 100;
+}
+
+.add_event {
+    border: solid 1px;
+    width: 420px;
+    background-color: #14141480;
+    color: #fff;
+    padding: 15px;
+    border-radius: 15px;
+    border-color: rgba(255 255 255  / 40%);
+    font-size: 16px;
+    font-family: cursive;
+    backdrop-filter: blur(6.6px);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator{
+    background-color: #fff !important;
+}
+
+.input {
+    background-color: #18181875;
+    border: 1px solid #fff;
+    border-color: rgb(255 255 255 / 29%);
+    border-radius: 3px;
+    color: #fff;
+    padding: 5px;
+}
+
+.main_title,
+.sub_title,
+#total, #total_sin_resto {
+    display: inline-block;
+    font-family: cursive;
+}
+
+.main_title {
+    margin-right: 5%;
+}
+
+#total, #total_sin_resto {
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+#evento {
+    width: -webkit-fill-available !important;
+    resize: none;
+}
+
+.monto_container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+}
+
+#dolar,
+#bolivar,
+#pagomovil,
+#ref,
+#euro,
+#add_evento {
+    width: 180px;
+}
+
+#add_evento, .boton_agregar_evento {
+    border: 1px solid #fff;
+    border-color: rgb(255 255 255 / 29%);
+    border-radius: 3px;
+    background-color: #2c2c2c;
+    color: #fff;
+    text-transform: uppercase;
+    padding: 5px;
+    margin: 2.5px;
+    cursor: pointer;
+}
+
+.label_add_evento {
+    cursor: pointer;
+}
+
+#add_evento:active, .boton_agregar_evento:active {
+    background-color: #fff;
+    color: #000;
+}
+
+.main_container {
+    display: grid;
+    grid-template-columns: 55% 45%;
+}
+
+.contenedor_add{
+    overflow: hidden !important;
+}
+
+.verificar {
+    height: 30px;
+    width: 30px;
+}
+
+.borrar {
+    cursor: pointer;
+    width: 35px;
+}
+
+#main{
+    text-align: center;
+    margin: 5px;
+}
+
+colgroup{
+    display: none !important;
+}
+
+#main_info {
+    display: none !important;
+}
+
+.side_button{
+    position: fixed;
+    top: 90px;
+    right: 5px;
+    z-index: 10;
+    color: #fff;
+    padding: 7px;
+    cursor: pointer;
+    width: 45px;
+    filter: invert(1);
+    transform: rotate(0deg);
+    transition: transform 1s ease-in-out, top 1s cubic-bezier(0.02, 1.02, 1, 1);
+}
+
+.side_menu {
+    position: fixed;
+    right: -100%;
+    display: grid;
+    align-content: space-evenly;
+    background-color: #000;
+    height: -webkit-fill-available;
+    z-index: 5;
+    justify-items: center;
+    align-items: center;
+    transition: right 1s ease-in-out;
+    background: rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(7px);
+}
+
+.side_menu_hovered {
+    right: 0%;
+}
+
+.tipo{
+    text-decoration: underline;
+}
+
+.fecha_actualizar{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    justify-items: center;
+}
+
+#actualizar{
+    width: 36px;
+    filter: invert(1);
+    cursor: pointer;
+    position: relative;
+    z-index: 100;
+    transform: rotate(360deg);
+    transition: transform 1s ease-in-out;
+}
+
+.actualizar_rotate{
+    transform: rotate(360deg);  
+}
+
+@media ((max-width: 400px)) {
+    *{
+        font-family: arial !important;
+    }
+    .header{
+        grid-template-columns: 1fr;
+        gap: 16px;
+        top: 76px;
+    }
+    
+    .header_principal{
+        margin-bottom: 35%;
+    }
+
+    #main_wrapped{
+        overflow: scroll;
+    }
+}

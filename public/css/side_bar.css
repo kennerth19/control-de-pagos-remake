@@ -1,0 +1,32 @@
+.side_bar {
+    background: #212529;
+    position: fixed;
+    top: 0;
+    left: -304px;
+    color: #fff;
+    height: -webkit-fill-available;
+    width: 275px;
+    display: grid;
+    justify-items: center;
+    align-content: space-between;
+    font-size: 17px;
+    font-family: system-ui;
+    padding: 15px;
+    transition: left 1s ease-in-out;
+}
+
+.side_bar_hovered {
+    left: 0px;
+}
+
+.side_item {
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 35px 190px 30px;
+    align-items: center;
+    justify-items: center;
+}
+
+img {
+    width: -webkit-fill-available;
+}

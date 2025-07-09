@@ -1,0 +1,112 @@
+@font-face {
+    font-family: 'gg_sans';
+    src: url('fuentes/gg_sans.ttf') format('truetype');
+    font-style: normal;
+    font-weight: normal;
+  }
+
+*{
+    font-family: 'gg_sans';
+    color: #fff;
+    margin: 0;
+}
+
+body{
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(6.6px);
+    -webkit-backdrop-filter: blur(6.6px);
+    padding: 7%;
+}
+
+.main_form{
+    display: grid;
+    grid-template-columns: 1fr;
+    background-color: rgb(49, 51, 56);
+    padding: 15px;
+    width: 530px;
+    align-items: center;
+    justify-items: center;
+    border-radius: 15px;
+}
+
+input{
+    background-color: rgb(30, 31, 34);
+    color: #fff;
+    border: none;
+    width: -webkit-fill-available;
+    height: 42px;
+    border-radius: 5px;
+    font-weight: 800;
+    font-size: larger;
+}
+
+h1{
+    font-weight: bolder;
+    font-size: -webkit-xxx-large;
+}
+
+sup{
+    font-weight: bolder;
+    color: rgb(195 195 195);
+}
+
+#submit, #crear_usuario{
+    background-color: rgb(88, 101, 242);
+    border: none;
+    border-radius: 8px;
+    padding: 15px 28% 15px 28%;
+    font-size: larger;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+#crear_usuario{
+    margin-top: 20px;
+}
+
+#password, #nombre{
+    background-color: rgb(255 255 255);
+    color: #000;
+    border: solid 1px #000;
+    width: -webkit-fill-available;
+    outline: none;
+    height: 42px;
+    border-radius: 5px;
+    font-weight: 800;
+    font-size: larger;
+}
+
+.inputs{
+    width: 80%;
+}
+
+#crear{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.registrarse{
+    width: 70%;
+    text-align: left;
+}
+
+@media (max-width: 648px) {
+    body{
+        padding: 0;
+    }
+
+    .main_form{
+        width: 100%;
+    }
+
+    h1{
+        font-size: x-large;
+    }
+
+    .main_form{
+        grid-template-rows: 90px 90px 90px 90px 90px 90px;
+    }
+}

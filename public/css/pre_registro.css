@@ -1,0 +1,114 @@
+*{
+    text-align: center !important;
+    font-family: cursive;
+}
+
+body{
+    color:#fff !important;
+}
+
+#main{
+    width: -webkit-fill-available !important;
+}
+
+.estado{
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    justify-items: center;
+    align-items: center;
+    font-weight: 900;
+    border: solid 2px #fff;
+    cursor: pointer;
+}
+
+.estado_color_0{
+    background-color: #3d3d3d;
+}
+
+.estado_color_1{
+    background-color: #00cd57;
+}
+
+.estado_color_2{
+    background-color: red;
+}
+
+.boton{
+    width: 32px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.filtro{
+    filter: invert(1);
+}
+
+.container_modal {
+    min-width: -webkit-fill-available;
+}
+
+#main {
+    background-color: #333;
+    color: rgba(255, 255, 255, .9);
+    border-radius: 5px;
+    border: none;
+}
+
+.nuevo_pre_reg {
+    gap: 10px
+}
+
+.input_date {
+    border: none;
+    color: #fff;
+    padding: 10px;
+    background: rgb(45 47 49);
+    outline: none;
+    width: -webkit-fill-available;
+}
+
+.date_picker::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+div:where(.swal2-container) div:where(.swal2-popup) {
+    color: #fff;
+    background-color: rgb(29 29 30);
+}
+
+.data_title{
+    font-weight: bold;
+}
+
+.data{
+    text-align: left !important;
+}
+
+.swal2-popup{
+    width: auto;
+}
+
+#fecha_pagomovil{
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    width: -webkit-fill-available;
+}
+
+.item_pm_banco{
+    margin-bottom: 5px;
+    border: solid 1px #fff !important;
+    width: -webkit-fill-available;
+}
+
+.nombreFinanza{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.finanzaImg{
+    width: 24px;
+}

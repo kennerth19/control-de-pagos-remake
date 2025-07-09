@@ -1,0 +1,96 @@
+[33mcommit 271371ff6497660b08a255af21f17e553ab41ebf[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: Kennerth Salazar <kennerths4@gmail.com>
+Date:   Wed Jul 9 11:28:34 2025 -0400
+
+    Primer commit - proyecto Laravel
+
+[33mcommit 1842b57eb7f5e5483fd84900aa64aa86cf98b5b5[m
+Author: kennerth <kennerths4@gmail.com>
+Date:   Sat Aug 31 11:06:10 2024 -0400
+
+    primer cumming
+
+[33mcommit 3670c7418d2fcf2ef41dfd65b0c56be8af1ada91[m
+Author: kennerth <kennerths4@gmail.com>
+Date:   Sat Aug 31 10:59:01 2024 -0400
+
+    modified:   app/Http/Controllers/evento_diario.php
+    modified:   app/Http/Controllers/imprimir_datos.php
+    modified:   app/Http/Controllers/menu.php
+    modified:   app/Http/Controllers/pagos.php
+    modified:   app/Http/Controllers/pre_registro.php
+    modified:   app/Http/Controllers/principal.php
+    modified:   app/Http/Controllers/resumen.php
+    modified:   app/Http/Middleware/Authenticate.php
+    modified:   app/Models/User.php
+    modified:   app/Models/clientes.php
+    modified:   app/Models/pago_resumen.php
+    modified:   app/Models/resumen_general.php
+    modified:   config/session.php
+    modified:   database/factories/ClienteFactory.php
+    modified:   database/seeders/clientes.php
+    modified:   public/css/evento_diario.css
+    modified:   public/css/menu.css
+    modified:   public/css/pago_resumen.css
+    modified:   public/css/pagos.css
+    modified:   public/css/resumen_general.css
+    modified:   public/css/side_bar.css
+    modified:   public/css/style.css
+    modified:   public/js/evento_diario.js
+    modified:   public/js/lenguaje.json
+    modified:   public/js/menu.js
+    modified:   public/js/pago_resumen.js
+    modified:   public/js/pagos.js
+    modified:   public/js/pre_registro.js
+    modified:   public/js/principal.js
+    modified:   public/js/resumen_general.js
+    modified:   resources/views/clientes/menu.blade.php
+    modified:   resources/views/evento_diario/evento_diario.blade.php
+    modified:   resources/views/inicio/principal.blade.php
+    modified:   resources/views/pagos/pagos_resumen.blade.php
+    modified:   resources/views/resumen_general/resumen_general.blade.php
+    modified:   resources/views/side_bar/side_bar.blade.php
+    modified:   routes/console.php
+    modified:   routes/web.php
+    modified:   sh.exe.stackdump
+    modified:   storage/framework/views/207299fce6bea1a4e8504e7ba4a5dcc9.php
+    app/Http/Controllers/AuthController.php
+    app/Http/Controllers/comprobar.php
+    app/Http/Controllers/cortes_automaticos.php
+    app/Http/Controllers/mikrotik.php
+    app/Http/Controllers/pagos_resumen.php
+    app/Http/Controllers/prorrogas.php
+    app/Models/cortes_log.php
+    app/api/
+    app/fpdf/PDF_HTML.php
+    app/fpdf/qr.png
+    public/css/fuentes/
+    public/css/login.css
+    public/css/mikrotik.css
+    public/img/cheems/
+    public/img/cortes/
+    public/img/inicio/congelado_icon.png
+    public/img/inicio/congelar.png
+    public/img/inicio/descongelar.png
+    public/img/inicio/deuda.png
+    public/img/inicio/prorroga_icon.png
+    public/img/inicio/tuerquit.png
+    public/img/logo.png
+    public/img/menu/eliminar_pago.png
+    public/img/menu/unir_check.png
+    public/js/cambios.js
+    public/js/header.js
+    resources/views/inicio/cambios.blade.php
+    resources/views/modulo_de_cortes/
+    resources/views/pagos/comprobar.blade.php
+    resources/views/privilegios_insuficientes.blade.php
+    resources/views/sistema_login/
+    storage/framework/views/24c6902598007883fcaeb5711c87ff9f.php
+    storage/framework/views/53794cdfd051d0945bf959c71e625e41.php
+    storage/framework/views/691444ba1cb1432b6eb79601c745f5a6.php
+
+[33mcommit df1020f88df247628dcaf1f397405c0f48cbf146[m
+Author: kennerth <kennerths4@gmail.com>
+Date:   Tue Jun 25 16:24:48 2024 -0400
+
+    Primer commit
