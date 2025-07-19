@@ -2,30 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
 use App\api\api;
-
-use App\Models\pre_registro_model;
-use App\Models\evento;
-use App\Models\resumen_general;
-use App\Models\clientes;
-use App\Models\servidores;
-use App\Models\planes;
-use App\Models\pago_resumen;
-use App\Models\sort;
-use App\Models\instalaciones;
-use App\Models\caja;
-use App\Models\inventarios;
-use App\Models\existencias;
-use App\Models\inventario_log;
-
 use App\Fpdf\FPDF;
 use App\Fpdf\KodePDF;
-
+use App\Models\caja;
+use App\Models\clientes;
+use App\Models\evento;
+use App\Models\existencias;
+use App\Models\instalaciones;
+use App\Models\inventario_log;
+use App\Models\inventarios;
+use App\Models\pago_resumen;
+use App\Models\planes;
+use App\Models\pre_registro_model;
+use App\Models\resumen_general;
+use App\Models\servidores;
+use App\Models\sort;
 use Carbon\Carbon;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 date_default_timezone_set('America/Caracas');
@@ -35,7 +30,7 @@ class pre_registro extends Controller
     public function index()
     {
         $sort = sort::findOrFail(1)->toArray();
-        $tasa = $sort["tasa"];
+        $tasa = $sort['tasa'];
         $hoy = Carbon::now();
 
         $fecha = date('Y-m-d', strtotime($hoy));
@@ -43,28 +38,30 @@ class pre_registro extends Controller
         return view('pre_registro.pre_registro', compact('tasa', 'fecha'));
     }
 
-    public function get_pre($id){
+    public function get_pre($id)
+    {
         $datos = DB::table('pre-registro')->select('*')->where('id', $id)->get();
 
         return $datos[0];
     }
 
-    public function get_plan($id){
+    public function get_plan($id)
+    {
         $datos = DB::table('planes')->select('plan')->where('id', $id)->get();
 
         return $datos[0];
     }
 
-    public function get_serial($id){
-
+    public function get_serial($id)
+    {
         $datos = [];
 
-        if(Auth::user()->name != 'merulo'){
+        if (Auth::user()->name != 'merulo') {
             $datos[0] = DB::select("SELECT `asignacion` FROM `pre-registro` WHERE `id` = $id;");
 
             $datos[1] = DB::select("SELECT `existencias`.`id`, `existencias`.`serial`, `existencias`.`categoria_id`, `inventarios`.`producto` FROM `existencias` INNER JOIN `inventarios` ON `existencias`.`categoria_id` = `inventarios`.`id` WHERE `serial` != 'N/A' AND `asignado` = 0 ORDER BY `existencias`.`id` DESC;");
-        }else{
-            $datos[1] = "";
+        } else {
+            $datos[1] = '';
         }
 
         return response()->json($datos);
@@ -72,7 +69,7 @@ class pre_registro extends Controller
 
     public function datos()
     {
-        $datos = DB::select("SELECT * FROM `pre-registro` ORDER BY `pre-registro`.`fecha_de_pago` ASC");
+        $datos = DB::select('SELECT * FROM `pre-registro` ORDER BY `pre-registro`.`fecha_de_pago` ASC');
         return response()->json($datos);
     }
 
@@ -84,27 +81,27 @@ class pre_registro extends Controller
 
     public function agregar_pre_registro(Request $request)
     {
-        //datos de facturación para el evento diario y la pagina de pagos
+        // datos de facturación para el evento diario y la pagina de pagos
 
-        if(Auth::user()->grupo == 1){
+        if (Auth::user()->grupo == 1) {
             $evento = new evento();
             $evento->usuario = Auth::user()->name;
-        }else if(Auth::user()->grupo == 2){
+        } else if (Auth::user()->grupo == 2) {
             $evento = new caja();
             $evento->usuario = Auth::user()->name;
-        }else{
+        } else {
             $evento = new evento();
         }
 
         $evento->usuario = Auth::user()->name;
         $cuenta = pago_resumen::count();
         $sort = sort::findOrFail(1)->toArray();
-        $tasa = $sort["tasa"];
-        $texto = "(No agregado al Pre-Registro) ";
+        $tasa = $sort['tasa'];
+        $texto = '(No agregado al Pre-Registro) ';
         $usuario_online = Auth::user()->name;
 
-        if($request->instalado == 1){
-            $texto = "";
+        if ($request->instalado == 1) {
+            $texto = '';
         }
 
         $cliente_nuevo = new pago_resumen();
@@ -112,21 +109,21 @@ class pre_registro extends Controller
         /* pago resumen */
         $cliente_nuevo->usuario = $usuario_online;
         $cliente_nuevo->cobrador = $usuario_online;
-        $cliente_nuevo->codigo =  "NEW_" . $cuenta;
+        $cliente_nuevo->codigo = 'NEW_' . $cuenta;
 
-        //datos del cliente
+        // datos del cliente
         $cliente_nuevo->cliente = $request->nombre;
         $cliente_nuevo->cedula = $request->cedula;
         $cliente_nuevo->telefono = $request->telefono;
         $cliente_nuevo->direccion = $request->direccion;
 
-        if($request->observacion == ""){
-            $cliente_nuevo->concepto = "Sin observación";
-        }else{
+        if ($request->observacion == '') {
+            $cliente_nuevo->concepto = 'Sin observación';
+        } else {
             $cliente_nuevo->concepto = $request->observacion;
         }
 
-        //facturación
+        // facturación
         $cliente_nuevo->tasa = $request->tasa;
         $cliente_nuevo->dolares = number_format($request->dolar, 2, '.', '');
         $cliente_nuevo->bolivares = number_format($request->bolivar, 2, '.', '');
@@ -146,9 +143,9 @@ class pre_registro extends Controller
         $cliente_nuevo->total = $cliente_nuevo->dolares + $cliente_nuevo->euros + $cliente_nuevo->zelle_a + $cliente_nuevo->zelle_b + $total_bs;
         $pagado_aux = $cliente_nuevo->total;
 
-        //otras columnas
-        $cliente_nuevo->corte = "N/A";
-        $cliente_nuevo->id_cliente = "N/A";
+        // otras columnas
+        $cliente_nuevo->corte = 'N/A';
+        $cliente_nuevo->id_cliente = 'N/A';
         $cliente_nuevo->plan = $request->plan;
         $cliente_nuevo->active = 1;
         $cliente_nuevo->servicio = 1;
@@ -159,7 +156,7 @@ class pre_registro extends Controller
         $total_d = $request->dolar + $request->euro + $request->zelle_v + $request->zelle_j;
         $total_bs = ($request->bolivar + $request->pagomovil) / $tasa;
 
-        $evento->evento = "<b><b class='tipo'>TIPO DE PAGO: INSTALACIÓN$texto</b><br>CLIENTE: " . $request->nombre . "<br>" . $request->observacion . "</b>";
+        $evento->evento = "<b><b class='tipo'>TIPO DE PAGO: INSTALACIÓN$texto</b><br>CLIENTE: " . $request->nombre . '<br>' . $request->observacion . '</b>';
         $evento->hora = $request->fecha_preg;
         $evento->bolivares = number_format($request->bolivar, 2, '.', '');
         $evento->pagomovil = number_format($request->pagomovil, 2, '.', '');
@@ -171,13 +168,12 @@ class pre_registro extends Controller
         $evento->total = $total_d + $total_bs;
         $evento->verificar = 0;
 
-        //grupo oficina o grupo caja fuerte
+        // grupo oficina o grupo caja fuerte
         if (Auth::user()->grupo == 1 || Auth::user()->grupo == 2) {
             $evento->save();
         }
 
         if ($request->instalado == 1) {
-
             $pre_registro = new pre_registro_model();
             $equipo = instalaciones::findOrFail($request->router);
             $aux_asignado = 0;
@@ -185,9 +181,9 @@ class pre_registro extends Controller
             /* Area para asignar el router del inventario (solo si hay disponibles) */
 
             $resultado = existencias::where('categoria_id', $equipo->inventario_categoria)
-            ->where('asignado', 0)
-            ->first();
-                
+                ->where('asignado', 0)
+                ->first();
+
             if ($resultado) {
                 $inventario = existencias::findOrFail($resultado->id);
 
@@ -200,12 +196,12 @@ class pre_registro extends Controller
 
                 $inventario->save();
             } else {
-                $pre_registro->asignacion = "Sin equipo asignado.";
+                $pre_registro->asignacion = 'Sin equipo asignado.';
             }
 
             /* Area para asignar el router del inventario (solo si hay disponibles) */
 
-            //datos del cliente
+            // datos del cliente
             $total_cancelado = number_format($evento->total, 2, '.', '');
 
             $pre_registro->cliente_id = $request->cliente_id;
@@ -223,9 +219,9 @@ class pre_registro extends Controller
             $pre_registro->valor = $equipo->valor;
             $pre_registro->instalacion = $equipo->router;
 
-            if($pagado_aux +1 >= $equipo->valor){
+            if ($pagado_aux + 1 >= $equipo->valor) {
                 $pre_registro->pagado = 1;
-            }else{
+            } else {
                 $pre_registro->pagado = 0;
             }
 
@@ -247,10 +243,10 @@ class pre_registro extends Controller
 
             $inv_log->usuario = Auth::user()->name;
 
-            if($aux_asignado == 1){
+            if ($aux_asignado == 1) {
                 $inv_log->evento = "Se ha asignado un equipo (SERIAL: $inventario->serial) al cliente $request->nombre.";
                 $inv_log->tipo = 5;
-            }else{
+            } else {
                 $inv_log->evento = "No se le pudo asignar un equipo al cliente $request->nombre (Sin equipos disponibles).";
                 $inv_log->tipo = 9;
             }
@@ -279,13 +275,13 @@ class pre_registro extends Controller
     {
         $pre_registro = pre_registro_model::findOrFail($id);
         $exists = DB::table('existencias')->where('serial', $serial)->exists();
-        $evento = "";
+        $evento = '';
         $tipo = 0;
 
         if ($exists) {
             DB::select("UPDATE `existencias` SET `asignado` = '0', `observacion` = null WHERE `serial` = '$serial';");
-            $evento = "Se elimino el cliente $pre_registro->nombre y se elimino la asignación del router $serial";  
-            $tipo = 6;         
+            $evento = "Se elimino el cliente $pre_registro->nombre y se elimino la asignación del router $serial";
+            $tipo = 6;
         }
 
         /* Area log */
@@ -318,7 +314,7 @@ class pre_registro extends Controller
         $plan_cliente = planes::findOrFail($pre_registro->plan);
         $plan_seleccionado = planes::findOrFail($request->plan);
 
-        $cambios = "";
+        $cambios = '';
         $detector_de_cambios = 0;
 
         if ($pre_registro->nombre != $request->nombre) {
@@ -357,15 +353,15 @@ class pre_registro extends Controller
             $detector_de_cambios += 1;
         }
 
-        $tipo_0 = "";
-        $tipo_1 = "";
+        $tipo_0 = '';
+        $tipo_1 = '';
 
         if ($request->tipo_de_servicio == 0) {
-            $tipo_0 = "ANTENA";
-            $tipo_1 = "FIBRA";
+            $tipo_0 = 'ANTENA';
+            $tipo_1 = 'FIBRA';
         } else {
-            $tipo_0 = "FIBRA";
-            $tipo_1 = "ANTENA";
+            $tipo_0 = 'FIBRA';
+            $tipo_1 = 'ANTENA';
         }
 
         if ($pre_registro->tipo_de_servicio != $request->tipo_de_servicio) {
@@ -389,11 +385,11 @@ class pre_registro extends Controller
 
         /* Resumen General */
 
-        if(Auth::user()->name == "kennerth" || Auth::user()->name == "antonio" || Auth::user()->name == "marco" || Auth::user()->name == "kathielis"){
+        if (Auth::user()->name == 'kennerth' || Auth::user()->name == 'antonio' || Auth::user()->name == 'marco' || Auth::user()->name == 'kathielis') {
             $pre_registro->save();
             $resumen->save();
         }
-        
+
         return back()->with('pre_reg_editado', 'ok');
     }
 
@@ -402,19 +398,17 @@ class pre_registro extends Controller
         $pre_registro = pre_registro_model::findOrFail($request->id);
         $ult = clientes::orderBy('id', 'desc')->first()->id;
 
-        if($pre_registro->cliente_id > 0){
-
+        if ($pre_registro->cliente_id > 0) {
             $cliente = clientes::findOrFail($pre_registro->cliente_id);
-            $servidores = DB::select("SELECT * FROM `servidores` WHERE `active` = 1");
+            $servidores = DB::select('SELECT * FROM `servidores` WHERE `active` = 1');
 
             $API = new api();
 
-            foreach ($servidores as $servidor) { // ciclo de servidores.
+            foreach ($servidores as $servidor) {  // ciclo de servidores.
 
                 if ($servidor->id == $cliente->servidor) {
-
                     if ($API->connect($servidor->ip, 'api-pwt-admin', '@p1pwt@dm1n2024')) {
-                        $API->write("/ip/firewall/address-list/add", false);
+                        $API->write('/ip/firewall/address-list/add', false);
                         $API->write('=address=' . $cliente->ip, false);
                         $API->write('=list=BLOCK', false);
                         $API->write('=comment=' . strtoupper("Al cliente $cliente->nombre se le realizo un cambio del equipo (MIGRACION), esta IP se desactivo AUTOMATICAMENTE"), true);
@@ -422,34 +416,44 @@ class pre_registro extends Controller
                     }
 
                     $API->disconnect();
+
+                    /* Resumen General */
+                    $resumen = new resumen_general();
+
+                    $resumen->usuario = Auth::user()->name;
+                    $resumen->descripcion = "Al cliente $cliente->nombre se le realizo un cambio del equipo (MIGRACION), la ip $cliente->ip se desactivo AUTOMATICAMENTE";
+                    $resumen->tipo = 38;
+
+                    /* Resumen General */
+
+                    $resumen->save();
                 }
             }
-
-        }else{
+        } else {
             $cliente = new clientes();
             $cliente->servicio_id = $ult + 1;
         }
-        
+
         $cliente->nombre = $request->nombre;
         $cliente->cedula = $request->cedula;
         $cliente->direccion = $request->direccion;
         $cliente->estado = 1;
         $cliente->plan_id = $request->plan;
         $cliente->tlf = $request->telefono;
-        
-        if($request->observacion == ""){
-            $cliente->observacion = "Sin observación";
-        }else{
+
+        if ($request->observacion == '') {
+            $cliente->observacion = 'Sin observación';
+        } else {
             $cliente->observacion = $request->observacion;
         }
-        
+
         $cliente->servidor = $request->servidor;
         $cliente->ip = $request->ip;
         $cliente->mac = $request->mac;
         $cliente->dia = Carbon::now();
         $cliente->mes = Carbon::now()->format('d');
 
-        $nueva_fecha = Carbon::parse($request->fecha_i); // variable auxiliar de la librería carbon para agregar un mes
+        $nueva_fecha = Carbon::parse($request->fecha_i);  // variable auxiliar de la librería carbon para agregar un mes
 
         $cliente->corte = $nueva_fecha->addMonth();
         $cliente->dia_i = $request->fecha_i;
@@ -457,6 +461,29 @@ class pre_registro extends Controller
         $cliente->almacen = 0;
         $cliente->deuda = $request->motivo;
         $cliente->motivo_deuda = $request->deuda;
+
+        $serverDeTurno = servidores::findORFail($request->servidor);
+
+        $API = new api();
+
+        if ($API->connect($serverDeTurno->ip, env('API_USER'), env('API_PASSWORD'))) {
+
+            $API->write("/ip/firewall/address-list/getall", false);
+            $API->write('?address=' . $request->ip, false);
+            $API->write('?list=BLOCK', true);
+            $READ = $API->read(false);
+            $ARRAY = $API->parseResponse($READ);
+        
+            if (count($ARRAY) > 0) {
+        
+                $ID = $ARRAY[0]['.id'];
+                $API->write('/ip/firewall/address-list/remove', false);
+                $API->write('=.id=' . $ID, true);
+                $READ = $API->read(false);
+            }
+        }
+
+        $API->disconnect();
 
         /* Resumen General */
         $resumen = new resumen_general();
@@ -474,20 +501,21 @@ class pre_registro extends Controller
         return back()->with('registrado', 'ok');
     }
 
-    public function cambiar_estado(Request $request, $id){
+    public function cambiar_estado(Request $request, $id)
+    {
         $cliente = pre_registro_model::findOrFail($id);
 
-        if($cliente->estado == 0){
+        if ($cliente->estado == 0) {
             $cliente->estado = 1;
-            $marca = "Instalado sin registrar";
-        }else if($cliente->estado == 1){
+            $marca = 'Instalado sin registrar';
+        } else if ($cliente->estado == 1) {
             $cliente->comentario = $request->comentario;
             $cliente->estado = 2;
             $marca = "Error al instalar ($request->comentario)";
-        }else{
+        } else {
             $cliente->comentario = null;
             $cliente->estado = 0;
-            $marca = "En espera";
+            $marca = 'En espera';
         }
 
         /* Resumen General */
@@ -505,8 +533,8 @@ class pre_registro extends Controller
         return back()->with('comentario', 'ok');
     }
 
-    public function pre_registro_abono(Request $request){
-
+    public function pre_registro_abono(Request $request)
+    {
         $pre_registro = pre_registro_model::findOrFail($request->id);
 
         $total_d = ($request->dolar + $request->euro + $request->zelle_v + $request->zelle_j) + ($request->bolivar + $request->pagomovil + 1) / $request->tasa;
@@ -516,20 +544,20 @@ class pre_registro extends Controller
 
         $pre_registro->total = $pre_registro->total + $descuento_final;
 
-        $resultado = "ABONO a";
+        $resultado = 'ABONO a';
 
-        if($pre_registro->total >= $pre_registro->valor){
+        if ($pre_registro->total >= $pre_registro->valor) {
             $pre_registro->pagado = 1;
-            $resultado = "CANCELO LA TOTALIDAD de";
+            $resultado = 'CANCELO LA TOTALIDAD de';
         }
 
-        if(Auth::user()->grupo == 1){
+        if (Auth::user()->grupo == 1) {
             $evento = new evento();
             $evento->usuario = Auth::user()->name;
-        }else if(Auth::user()->grupo == 2){
+        } else if (Auth::user()->grupo == 2) {
             $evento = new caja();
             $evento->usuario = Auth::user()->name;
-        }else{
+        } else {
             $evento = new evento();
         }
 
@@ -541,16 +569,16 @@ class pre_registro extends Controller
         /* pago resumen */
         $abono->usuario = $usuario_online;
         $abono->cobrador = $usuario_online;
-        $abono->codigo =  "NEW_" . $cuenta;
+        $abono->codigo = 'NEW_' . $cuenta;
 
-        //datos del cliente
+        // datos del cliente
         $abono->cliente = $pre_registro->nombre;
         $abono->cedula = $pre_registro->cedula;
         $abono->telefono = $pre_registro->telefono;
         $abono->direccion = $pre_registro->direccion;
         $abono->concepto = "Se $resultado la deuda de la instalación de $pre_registro->nombre.";
 
-        //facturación
+        // facturación
         $abono->tasa = $request->tasa;
         $abono->dolares = number_format($request->dolar, 2, '.', '');
         $abono->bolivares = number_format($request->bolivar, 2, '.', '');
@@ -569,9 +597,9 @@ class pre_registro extends Controller
 
         $abono->total = $abono->dolares + $abono->euros + $abono->zelle_a + $abono->zelle_b + $total_bs;
 
-        //otras columnas
-        $abono->corte = "N/A";
-        $abono->id_cliente = "N/A";
+        // otras columnas
+        $abono->corte = 'N/A';
+        $abono->id_cliente = 'N/A';
         $abono->plan = $pre_registro->plan;
         $abono->active = 1;
         $abono->servicio = 1;
@@ -580,7 +608,7 @@ class pre_registro extends Controller
         /* pago resumen */
 
         /* Evento diario (o caja fuerte) */
-        
+
         $evento->evento = "<b><b class='tipo'>TIPO DE PAGO: ABONO DE INSTALACION</b><br>CLIENTE: $pre_registro->nombre <br> Observacion: $pre_registro->observacion </b>";
         $evento->hora = $request->fecha_pago_movil;
         $evento->bolivares = number_format($request->bolivar, 2, '.', '');
@@ -593,7 +621,7 @@ class pre_registro extends Controller
         $evento->total = $total_d + $total_bs;
         $evento->verificar = 0;
 
-        //grupo oficina o grupo caja fuerte
+        // grupo oficina o grupo caja fuerte
         if (Auth::user()->grupo == 1 || Auth::user()->grupo == 2) {
             $evento->save();
         }
@@ -616,7 +644,8 @@ class pre_registro extends Controller
         return back()->with('abono', 'ok');
     }
 
-    public function asignacion(Request $request){
+    public function asignacion(Request $request)
+    {
         $cliente = pre_registro_model::findOrFail($request->id);
 
         $inv_log = new inventario_log();
@@ -625,16 +654,15 @@ class pre_registro extends Controller
 
         $inventario = DB::select("SELECT `id` FROM `pre-registro` WHERE `asignacion` = '$cliente->asignacion' ORDER BY `asignacion` DESC;");
 
-        if($request->serial == 0){ // Condición para desasignar.
-            
+        if ($request->serial == 0) {  // Condición para desasignar.
+
             $inv_log->evento = "Se ha desasignado un equipo (SERIAL: $cliente->asignacion) del cliente $cliente->nombre.";
             $inv_log->tipo = 6;
 
             DB::select("UPDATE `existencias` SET `observacion` = null, `asignado` = 0 WHERE `existencias`.`serial` = '$cliente->asignacion';");
             $cliente->asignacion = null;
+        } else {  // Condición para asignar un equipo.
 
-        } else { // Condición para asignar un equipo.
-            
             DB::select("UPDATE `existencias` SET `observacion` = '$cliente->nombre', `asignado` = 1 WHERE `existencias`.`serial` = '$request->serial';");
             $cliente->asignacion = $request->serial;
 

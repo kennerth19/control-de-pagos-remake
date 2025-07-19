@@ -65,6 +65,7 @@ async function tabla_resumen() {
                                     35: { texto: "INSTALACIÓN MODIFICADA" },
                                     36: { texto: "USUARIO MODIFICADO" },
                                     37: { texto: "USUARIO CREADO" },
+                                    38: { texto: "MIGRACION" },
                                 };
 
                                 return tipos[row.tipo]?.texto || "DESCONOCIDO";
@@ -110,6 +111,7 @@ async function tabla_resumen() {
                                     35: { color: "orange" },
                                     36: { color: "green" },
                                     37: { color: "green" },
+                                    38: { color: "green" },
                                 };
 
                                 const color = tipos[rowData.tipo]?.color || "gray";

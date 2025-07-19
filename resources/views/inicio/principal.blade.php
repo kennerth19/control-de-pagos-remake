@@ -382,18 +382,22 @@
                                     data: 'id',
                                     "render": function(data, type, row) {
 
-                                        if (row.tipo_cliente == 1) {
-                                            row.estado = "PREMIUM";
-                                            row.color = "#5500FF";
-                                        } else if (row.tipo_cliente == 2) {
-                                            row.estado = "DONACIÓN";
-                                            row.color = "#5500FFAB";
-                                        } else if (row.tipo_cliente == 3) {
-                                            row.estado = "NODO";
-                                            row.color = "#5500FFAB";
+                                        if(row.prorroga == 1){
+                                            let fecha_formateada = moment(row.prorroga_hasta).locale('es').format('DD [de] MMMM [de] YYYY');  
+                                            return `<p style="background-color: red;">Prorroga activa hasta: ${fecha_formateada}</p>`
+                                        }else{
+                                            if (row.tipo_cliente == 1) {
+                                                row.estado = "PREMIUM";
+                                                row.color = "#5500FF";
+                                            } else if (row.tipo_cliente == 2) {
+                                                row.estado = "DONACIÓN";
+                                                row.color = "#5500FFAB";
+                                            } else if (row.tipo_cliente == 3) {
+                                                row.estado = "NODO";
+                                                row.color = "#5500FFAB";
+                                            }
+                                            return `<p style="background-color: ${row.color};">${row.estado}</p>`
                                         }
-
-                                        return `<p style="background-color: ${row.color};">${row.estado}</p>`
                                     }
                                 },
                                 {

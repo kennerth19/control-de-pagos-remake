@@ -48,8 +48,8 @@ function cambiar_eliminar(id) {
         html: ` <div class="">
                     <h1>Configurar foto de perfil <i class="fa-solid fa-trash-can" id="boton_eliminar_foto" onclick="confirmar_eliminar_in()" title="Eliminar foto" style="cursor: pointer;"></i></h1>
                         <form action="/control_de_pago_remake/public/administrar/cambiar_perfil" method="POST" enctype="multipart/form-data" class="formulario_perfil">
-                        <input type="hidden" name="id" value="${id}">
-                        <input type="file" class="input_file" name="foto" accept="image/*" required>
+                            <input type="hidden" name="id" value="${id}">
+                            <input type="file" class="input_file" name="foto" accept="image/*" required>
                             <input type="submit" class="boton_pago cambiar_perfil_b" value="Cambiar perfil">
                         </form>
 
@@ -1436,10 +1436,12 @@ async function tabla_instalaciones() {
     }
 }
 
-async function procesarClientes(clientes, servidorId, cantidadServidores, contador) {
+async function procesarClientes(clientes, servidorId, servidorName, cantidadServidores, contador) {
     try {
         const titleProcess = document.getElementById("titleProcess");
         const progressBar = document.getElementById("progressBar");
+        let container_load = document.getElementById("container_load");
+
         progressBar.max = cantidadServidores;
 
         const response = await fetch("/control_de_pago_remake/public/makeCut", {
@@ -1466,12 +1468,22 @@ async function procesarClientes(clientes, servidorId, cantidadServidores, contad
             if (cantidadServidores == contador) {
                 titleProcess.innerText = "Procesos terminados, generando reporte...";
 
-                setTimeout(Swal.close(), 500);
+                //setTimeout(Swal.close(), 500);
             }
-        }, 1500)
-
+        }, 1500);
     } catch (error) {
         console.log("Error al cargar los datos:", error);
+        const p = document.createElement("p");
+        const img = document.createElement("img");
+
+        p.id = "textError";
+        p.textContent = `error al cargar ${servidorName}`;
+
+        img.src = "/control_de_pago_remake/public/img/configuracion/error.png";
+        img.id = "msgImg";
+
+        p.appendChild(img);
+        container_load.appendChild(p);
     }
 }
 
@@ -1486,7 +1498,6 @@ async function realizarCortes() {
         const data = await response.json();
 
         Swal.fire({
-            allowOutsideClick: false,
             showConfirmButton: false,
             html: `
                     <p id='titleProcess'>Preparando clientes...</p> 
@@ -1497,6 +1508,7 @@ async function realizarCortes() {
             `,
         });
 
+        // Agrupar clientes por servidor
         const clientesPorServidor = data.reduce((acumulador, cliente) => {
             const servidor = cliente.servidor;
             if (!acumulador[servidor]) {
@@ -1506,22 +1518,93 @@ async function realizarCortes() {
             return acumulador;
         }, {});
 
+        // Crear mapa servidorId -> nombre_de_servidor
+        const nombresServidores = {};
+        for (const cliente of data) {
+            if (!nombresServidores[cliente.servidor]) {
+                nombresServidores[cliente.servidor] = cliente.nombre_de_servidor;
+            }
+        }
+
         const cantidadServidores = Object.keys(clientesPorServidor).length;
 
         let contador = 0;
 
         for (const [servidorId, clientes] of Object.entries(clientesPorServidor)) {
             contador++;
-            await procesarClientes(clientes, servidorId, cantidadServidores, contador);
+            const servidorName = nombresServidores[servidorId] || "Nombre no disponible";
+
+            await procesarClientes(clientes, servidorId, servidorName, cantidadServidores, contador);
         }
 
-        /*  con esto podemos procesar en paralelo EXPERIMENTAL (mas rapido) 
+        /*  con esto podemos procesar en paralelo EXPERIMENTAL (mas rapido) no activar!
             await Promise.all(
             Object.entries(clientesPorServidor).map(([servidorId, clientes]) =>
                 procesarClientes(clientes, servidorId)
             )
         );*/
+    } catch (error) {
+        console.log("Error al cargar los datos:", error);
+    }
+}
 
+async function procesarMensajes(id, cantidadClientes, contador) {
+    const response = await fetch(`/control_de_pago_remake/public/ProceedToSendMessages/${id}`);
+
+    const titleProcess = document.getElementById("titleProcess");
+    const progressBar = document.getElementById("progressBar");
+    let container_load = document.getElementById("container_load");
+    let cargando = document.getElementById("cargando");
+
+    progressBar.max = cantidadClientes;
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! estado: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    titleProcess.innerText = `Procesando mensaje (${cantidadClientes} clientes) progreso ${contador}/${cantidadClientes}`;
+    progressBar.value = contador;
+
+    setTimeout(() => {
+        if (cantidadClientes == contador) {
+            titleProcess.innerText = "Procesos terminados...";
+            cargando.style.display = "none";
+            //setTimeout(Swal.close(), 500);
+        }
+    }, 1500);
+}
+
+async function enviarRecordatorio() {
+    try {
+        const response = await fetch("/control_de_pago_remake/public/getDataToSendMessages");
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! estado: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        Swal.fire({
+            showConfirmButton: false,
+            html: `
+                    <p id='titleProcess'>Preparando mensajes...</p> 
+                    <div id="container_load">
+                        <progress id="progressBar" value="" max=""></progress>
+                        <img src="/control_de_pago_remake/public/img/configuracion/cargando.png" id="cargando">
+                    </div>
+            `,
+        });
+
+        let contador = 0;
+
+        const cantidadClientes = data.length;
+
+        for (const item of data) {
+            contador++;
+            await procesarMensajes(item.id, cantidadClientes, contador);
+        }
     } catch (error) {
         console.log("Error al cargar los datos:", error);
     }

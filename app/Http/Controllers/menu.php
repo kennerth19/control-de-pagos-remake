@@ -370,7 +370,7 @@ class menu extends Controller
         /* Resumen General */
         $resumen = new resumen_general();
 
-        //$resumen->usuario = Auth::user()->name;
+        $resumen->usuario = Auth::user()->name;
         $resumen->descripcion = "Se ELIMINO el cliente $cliente->nombre.";
         $resumen->tipo = 2;
         $resumen->save();

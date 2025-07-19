@@ -607,9 +607,10 @@ class principal extends Controller
 
             $cliente_uwu = clientes::find($i);
 
-            if ($cliente_uwu) {
+            if ($cliente_uwu && $cliente_uwu->tipo_cliente == 0) {
+
                 //Mantener la fecha de corte igual a al dia de corte del cliente.
-                $corte = date('d', strtotime($cliente_uwu->corte));
+                /*$corte = date('d', strtotime($cliente_uwu->corte));
                 
                 if($corte != $cliente_uwu->mes){
                     echo "$cliente_uwu->mes y $corte son diferentes <br>";
@@ -619,10 +620,22 @@ class principal extends Controller
                 //Aqui se reinicia la columna de dias de prorroga
                 $cliente_uwu->dias_prorroga = null;
 
-                $cliente_uwu->save();
+                $cliente_uwu->save();*/
+
+                $corte = pago_resumen::where('id_cliente', $cliente_uwu->id)
+                    ->orderBy('pago', 'desc')
+                    ->limit(1)
+                    ->value('corte');
+                
+                if($cliente_uwu->corte != $corte && $corte != "" && $corte != "0000-00-00"){
+                    echo "{$i} - {$cliente_uwu->nombre} - {$cliente_uwu->corte} | $corte<br><br>";
+
+                    $cliente_uwu->corte = $corte;
+
+                    //$cliente_uwu->save();
+                }
             }
 
-            echo $i;
         }
     }
 }

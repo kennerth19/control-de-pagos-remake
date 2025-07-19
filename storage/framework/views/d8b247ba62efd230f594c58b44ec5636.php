@@ -200,6 +200,7 @@
     <div id="api" style="display: none;" class="seccion">
         <h1 style="text-align: center;">Api</h1>
         <button class="button edit" onclick="realizarCortes()">Realizar cortes</button>
+        <button class="button edit" onclick="enviarRecordatorio()">Enviar recordatorio</button>
     </div>
 
     <script>

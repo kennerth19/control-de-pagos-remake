@@ -270,3 +270,13 @@ i{
 #swal2-html-container{
     overflow: hidden !important;
 }
+
+#textError{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#msgImg{
+    width: 20px;
+}

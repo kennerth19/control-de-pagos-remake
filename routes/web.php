@@ -23,6 +23,7 @@ use App\Http\Controllers\caja_fuerte;
 use App\Http\Controllers\inventario;
 use App\Http\Controllers\CorteRemakeController;
 use App\Http\Controllers\AcosadorRemakeController;
+use App\Http\Controllers\TelegramController;
 
 use App\Http\Requests\LoginRequest;
 
@@ -241,7 +242,7 @@ Route::controller(menu_administrativo::class)->middleware('auth')->group(functio
 });
 //rutas para la configuración de la pagina.
 
-//14: rutas para el bot cheems.
+//15: rutas para el bot cheems.
 Route::controller(difusion::class)->middleware('auth')->group(function () {
     Route::get('/difusion', 'difusion')->name('difusion'); // Ruta principal.
     Route::get('/get_data_difusion', 'get_data_difusion')->name('get_data_difusion'); // Ruta para recibir los servidores, sectores y estados en un array.
@@ -249,7 +250,7 @@ Route::controller(difusion::class)->middleware('auth')->group(function () {
 });
 //rutas para el bot cheems.
 
-//15: rutas de la caja fuerte.
+//16: rutas de la caja fuerte.
 Route::controller(caja_fuerte::class)->middleware('auth')->group(function () {
     Route::get('/evento_admin', 'index')->name('evento_admin'); // Ruta principal.
     Route::get('/evento_admin/{fecha}', 'evento_admin_fecha')->name('evento_admin_fecha'); // Retorna todos los eventos (con resto).
@@ -262,7 +263,7 @@ Route::controller(caja_fuerte::class)->middleware('auth')->group(function () {
 });
 //rutas evento diario 2.
 
-//16: rutas para el inventario.
+//17: rutas para el inventario.
 Route::controller(inventario::class)->middleware('auth')->group(function () {
     Route::get('/inventario', 'index')->name('inventario'); // Ruta principal..
     Route::get('/get_inv', 'get_inv')->name('get_inv'); // Devuelve el inventario..
@@ -282,16 +283,24 @@ Route::controller(inventario::class)->middleware('auth')->group(function () {
 });
 //rutas para el inventario.
 
-//17: rutas para los nuevos cortes.
+//18: rutas para los nuevos cortes.
 Route::controller(CorteRemakeController::class)->middleware('auth')->group(function () {
     Route::get('/getDataToCutOff', 'getDataToCutOff')->name('getDataToCutOff'); // Obtener datos para los cortes.
     Route::post('/makeCut', 'makeCut')->name('makeCut'); // Realizar los cortes con los datos obtenidos.
 });
 //rutas para los nuevos cortes.
 
-//18: rutas para el acosador remake.
+//19: rutas para el acosador remake.
 Route::controller(AcosadorRemakeController::class)->middleware('auth')->group(function () {
-    Route::get('/getDataToAcosadorRemake', 'getDataToAcosadorRemake')->name('getDataToAcosadorRemake'); // Obtener datos para el acosador remake.
-    Route::post('/makeAcosadorRemake', 'makeAcosadorRemake')->name('makeAcosadorRemake'); // Realizar el acosador remake.
+    Route::get('/getDataToAcosadorRemakeSerSis', 'getDataToAcosadorRemakeSerSis')->name('getDataToAcosadorRemakeSerSis'); // Listar y cortar clientes que no estén en el sistema.
+    Route::get('/getDataToAcosadorRemakeSisSer', 'getDataToAcosadorRemakeSisSer')->name('getDataToAcosadorRemakeSisSer'); // Listar, comparar y actualizar (IP, SERVIDOR) clientes dependiendo de la MAC.
 });
 //rutas para el acosador remake.
+
+//20: rutas para la api de telegram.
+Route::controller(TelegramController::class)->group(function () {
+    Route::get('/getDataToSendMessages', 'getDataToSendMessages')->name('getDataToSendMessages'); // Listar clientes para envió de mensaje automático.
+    Route::get('/ProceedToSendMessages/{id}', 'ProceedToSendMessages')->name('ProceedToSendMessages'); // Proceder al envió de mensajes.
+    Route::post('/updateId', 'updateId')->name('updateId'); // Actualiza el id del cliente por el comando registrar + cédula.
+});
+//rutas para la api de telegram.
