@@ -291,7 +291,7 @@ Route::controller(CorteRemakeController::class)->middleware('auth')->group(funct
 //rutas para los nuevos cortes.
 
 //19: rutas para el acosador remake.
-Route::controller(AcosadorRemakeController::class)->middleware('auth')->group(function () {
+Route::controller(AcosadorRemakeController::class)->group(function () {
     Route::get('/getDataToAcosadorRemakeSerSis', 'getDataToAcosadorRemakeSerSis')->name('getDataToAcosadorRemakeSerSis'); // Listar y cortar clientes que no estén en el sistema.
     Route::get('/getDataToAcosadorRemakeSisSer', 'getDataToAcosadorRemakeSisSer')->name('getDataToAcosadorRemakeSisSer'); // Listar, comparar y actualizar (IP, SERVIDOR) clientes dependiendo de la MAC.
 });

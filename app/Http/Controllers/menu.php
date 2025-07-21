@@ -82,6 +82,9 @@ class menu extends Controller
         $cambios = "";
         $detector_de_cambios = 0;
 
+        $usuarioDeTurno = Auth::user()->name;
+        $mensaje = "El usuario $usuarioDeTurno modifico al cliente $cliente->nombre:\n\n";
+
         if ($cliente->nombre != $request->input('nombre')) {
             $cambios .= "NOMBRE - $cliente->nombre a nombre de ".$request->input('nombre')." <br>";
             $cliente->nombre = $request->input('nombre');
@@ -131,6 +134,10 @@ class menu extends Controller
         }
 
         if($cliente->corte != $request->input('corte') && Auth::user()->name == 'antonio' || Auth::user()->name == 'kennerth' || Auth::user()->name == 'marco'){
+            $nuevoCorte = $request->input('corte');
+            $corte = $cliente->corte;
+            $mensaje .= "- DIA DE CORTE: $corte al dia $nuevoCorte\n\n";
+
             $cambios .= "DIA DE CORTE - $cliente->corte para el dia ".$request->input('corte')." <br>";
             $cliente->corte = $request->input('corte');
             $cliente->mes = date('d', strtotime($request->input('corte')));
@@ -165,12 +172,41 @@ class menu extends Controller
 
             if($request->input('tipo_c') == 0){
                 $tipo_1 = "Regular";
+                $mensaje .= "- ESTADO: CLIENTE REGULAR";
             }else if ($request->input('tipo_c') == 1){
                 $tipo_1 = "Premium";
+                $mensaje .= "- ESTADO: PREMIUM";
             }else if ($request->input('tipo_c') == 2){
                 $tipo_1 = "Donación";
+                $mensaje .= "- ESTADO: DONACIÓN";
             }else{
                 $tipo_1 = "Nodo";
+                $mensaje .= "- ESTADO: NODO";
+            }
+
+            if($mensaje != ""){
+                $token = env('TELEGRAM_BOT_TOKEN');
+    
+                $url = "https://api.telegram.org/bot$token/sendMessage";
+        
+                // Inicializar cURL
+                $ch = curl_init();
+        
+                $data = [
+                    'chat_id' => '5809644916',
+                    'text' => $mensaje,
+                ];
+        
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+                // Ejecutar la petición
+                $response = curl_exec($ch);
+        
+                // Cerrar cURL
+                curl_close($ch);
             }
 
             $cambios .= "TIPO DE CLIENTE - $tipo_0 a ".$tipo_1." <br>";

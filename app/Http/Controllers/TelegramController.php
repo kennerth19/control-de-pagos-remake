@@ -39,8 +39,6 @@ class TelegramController extends Controller
 
             $token = env('TELEGRAM_BOT_TOKEN');
 
-            $ch = curl_init();
-
             $url = "https://api.telegram.org/bot$token/sendMessage";
 
             $clienteDeTurno = clientes::find($id);

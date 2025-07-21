@@ -16,15 +16,14 @@ class AcosadorRemakeController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getDataToAcosadorRemakeSerSis(): \Illuminate\Http\JsonResponse
+    public function getDataToAcosadorRemakeSerSis()
     {
         try {
             $API = new api();
 
             $clientesMacs = array_map('strtolower', clientes::pluck('mac')->toArray());
-            $servidores = servidores::select('ip')->where('active', 1)->get();
-
-            $result = [];
+            $servidores = servidores::select('ip', 'nombre_de_servidor')->where('active', 1)->get();
+            $cadena = "";
 
             foreach ($servidores as $servidor) {
                 if (!$API->connect($servidor->ip, env('API_USER'), env('API_PASSWORD'))) {
@@ -47,18 +46,15 @@ class AcosadorRemakeController extends Controller
                         $API->write("=comment=Regla generada por el acosador (la mac: {$mac} no se encuentra en el sistema)", true);
                         $READ = $API->read(false);
 
-                        $result[] = [
-                            'mac' => $mac,
-                            'ip' => $ip,
-                        ];
-                    }
+                        $cadena .= "- $mac | IP: $ip | SERVIDO: $servidor->nombre_de_servidor\n";
+                     }
                 }
 
                 $API->disconnect();
             }
 
             // Se devuelve el resultado en formato JSON.
-            return response()->json($result);
+            return response()->json($cadena);
         } catch (\Exception $e) {
             Log::error("Error al recibir los datos: {$e->getMessage()}");
             return response()->json(['message' => "Error al recibir los datos: {$e->getMessage()}"], 500);
